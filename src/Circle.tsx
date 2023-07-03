@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 //Container의 props의 타입을 지정 (object를 설명)
@@ -24,6 +25,9 @@ interface CircleProps {
 
 // 타입을 지정한 인터페이스와 연결 : CircleProps
 function Circle({ bgColor, borderColor, text = "default text" /* undefined일 경우 초기값 지정 방법 2 (es6) */ }: CircleProps) {
+    // useState의 값을 두가지 속성으로 하고 싶으면 뒤에 <> 열어서 타입을 지정
+    // 타입 지정을 하지 않을 시 default값 기준으로 자동 설정
+    const [value, setValue] = useState<number|string>(1);
     // undefined일 경우 초기값 지정 방법 1 (typescript) ??
     return <Container bgColor={bgColor} borderColor={borderColor ?? bgColor}>
         {text}
