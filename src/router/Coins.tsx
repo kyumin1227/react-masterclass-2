@@ -26,8 +26,9 @@ const Coin = styled.li`
     border-radius: 15px;
     margin-bottom: 10px;
     a {
+        display: flex;
+        align-items: center;
         transition: color 0.2s ease-in;
-        display: block;
         padding: 20px;
     }
     &:hover {
@@ -45,6 +46,12 @@ const Title = styled.h1`
 const Loader = styled.span`
     text-align: center;
     display: block;
+`
+
+const Img = styled.img`
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
 `
 
 interface CoinInterface {
@@ -74,7 +81,9 @@ function Coins() {
         </Header>
         <CoinsList>
             {loading ? <Loader>loading...</Loader> : coins.map(coin => <Coin key={coin.id}>
-                <Link to={`/${coin.id}`}>
+                {/* state를 통해 값을 전달할 경우 받는 쪽에서는 useLocation 이용 */}
+                <Link to={`/${coin.id}`} state={coin}>
+                    <Img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
                     {coin.name} &rarr;
                 </Link>
             </Coin>)}
