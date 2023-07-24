@@ -32,12 +32,79 @@ interface RouteState {
     }
 }
 
+
+// 인터페이스를 생성할 때 가독성을 위해 앞에 대문자 I를 붙이기도 함
+
+// api의 타입 빠르게 생성하는 방법
+// 1. 해당 data의 log를 찍고 해당 로그를 우클릭 후 'store object...'을 클릭하여 temp1에 저장한다.
+// 2. Object.keys(temp1).join로 해당 data의 키를 string 형태로 가져온다.
+// 3. 가져온 string의 ,을 ctrl + d 로 모두 선택한 후 지우기, 엔터로 나열한다.
+// 4. 전체 선택 후 alt + shift + i 단축키를 이용하면 각 줄의 가장 뒤로 커서가 가게 된다.
+// 5. 마찬가지로 Object.values(temp1).map(v => typeof v).join() 명령어를 통해 값의 type을 받아온다.
+// 6. 위와 같이 나열 시켜 잘라내기를 한 후 key에 각 줄 가장 뒤로 커서를 위치 시켜 잘라낸 타입을 붙여넣는다.
+interface IInfoData {
+    id: string;
+    name: string;
+    symbol: string;
+    rank: number;
+    is_new: boolean;
+    is_active: boolean;
+    type: string;
+    logo: string;
+    description: string;
+    message: string;
+    open_source: boolean;
+    started_at: string;
+    development_status: string;
+    hardware_wallet: boolean;
+    proof_type: string;
+    org_structure: string;
+    hash_algorithm: string;
+    first_data_at: string;
+    last_data_at: string;
+}
+
+
+interface IPriceData {
+    id: string;
+    name: string;
+    symbol: string;
+    rank: number;
+    circulating_supply: number;
+    total_supply: number;
+    max_supply: number;
+    beta_value: number;
+    first_data_at: string;
+    last_updated: string;
+    quotes: {
+        USD: {
+            ath_date: string;
+            ath_price: number;
+            market_cap: number;
+            market_cap_change_24h: number;
+            percent_change_1h: number;
+            percent_change_1y: number;
+            percent_change_6h: number;
+            percent_change_7d: number;
+            percent_change_12h: number;
+            percent_change_15m: number;
+            percent_change_24h: number;
+            percent_change_30d: number;
+            percent_change_30m: number;
+            percent_from_price_ath: number;
+            price: number;
+            volume_24h: number;
+            volume_24h_change_24h: number;
+        }
+    };
+}
+
 function Coin() {
     const [loading, setLoading] = useState(true);
     const { coinId } = useParams();
     const { state } = useLocation() as RouteState;
-    const [info, setInfo] = useState({});
-    const [priceInfo, setPriceInfo] = useState({});
+    const [info, setInfo] = useState<IInfoData | {}>({});
+    const [priceInfo, setPriceInfo] = useState<IPriceData | {}>({});
     useEffect(() => {
         (async () => {
             const infoData = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json();
