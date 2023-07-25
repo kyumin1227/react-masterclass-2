@@ -1,6 +1,8 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Routes, Route, Outlet } from "react-router-dom";
 import { styled } from "styled-components";
 import { useEffect, useState } from "react";
+import Price from "./Price";
+import Chart from "./Chart";
 
 
 const Container = styled.div`
@@ -147,31 +149,32 @@ function Coin() {
         </Header>
         {loading ? <Loader>loading...</Loader> : (
         <>
-          <Overview>
-            <OverviewItem>
-              <span>Rank:</span>
-              <span>{info?.rank}</span>
-            </OverviewItem>
-            <OverviewItem>
-              <span>Symbol:</span>
-              <span>${info?.symbol}</span>
-            </OverviewItem>
-            <OverviewItem>
-              <span>Open Source:</span>
-              <span>{info?.open_source ? "Yes" : "No"}</span>
-            </OverviewItem>
-          </Overview>
-          <Description>{info?.description}</Description>
-          <Overview>
-            <OverviewItem>
-              <span>Total Suply:</span>
-              <span>{priceInfo?.total_supply}</span>
-            </OverviewItem>
-            <OverviewItem>
-              <span>Max Supply:</span>
-              <span>{priceInfo?.max_supply}</span>
-            </OverviewItem>
-          </Overview>
+            <Overview>
+                <OverviewItem>
+                    <span>Rank:</span>
+                    <span>{info?.rank}</span>
+                </OverviewItem>
+                <OverviewItem>
+                    <span>Symbol:</span>
+                    <span>${info?.symbol}</span>
+                </OverviewItem>
+                <OverviewItem>
+                    <span>Open Source:</span>
+                    <span>{info?.open_source ? "Yes" : "No"}</span>
+                </OverviewItem>
+            </Overview>
+            <Description>{info?.description}</Description>
+            <Overview>
+                <OverviewItem>
+                    <span>Total Supply:</span>
+                    <span>{priceInfo?.total_supply}</span>
+                </OverviewItem>
+                <OverviewItem>
+                    <span>Max Supply:</span>
+                    <span>{priceInfo?.max_supply}</span>
+                </OverviewItem>
+            </Overview>
+            <Outlet />
         </>
       )}
     </Container>);
