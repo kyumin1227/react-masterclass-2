@@ -3,6 +3,10 @@ import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 import Price from "./Price";
 import Chart from "./Chart";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+
+const queryClient = new QueryClient();
 
 
 const Container = styled.div`
@@ -169,12 +173,14 @@ function Coin() {
         })();
     }, [coinId])
 
-    return (<Container>
+  return (
+    <QueryClientProvider client={queryClient} >
+    <Container>
         <Header>
             <Title>{state?.name ? state.name : loading ? "Loading..." : info?.name}</Title>
         </Header>
         {loading ? <Loader>loading...</Loader> : (
-        <>
+          <>
             <Overview>
                 <OverviewItem>
                     <span>Rank:</span>
@@ -213,7 +219,9 @@ function Coin() {
             <Outlet />
         </>
       )}
-    </Container>);
+      </Container>
+      </QueryClientProvider>
+      );
     
 }
 

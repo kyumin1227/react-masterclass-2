@@ -5,6 +5,7 @@ import App from "./App";
 import { darkTheme, lightTheme } from "./theme";
 import { QueryClient, QueryClientProvider } from "react-query";
 
+
 const queryClient = new QueryClient();
 
 ReactDOM.render(

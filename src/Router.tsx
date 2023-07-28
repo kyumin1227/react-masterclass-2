@@ -4,8 +4,9 @@ import Coin from "./router/Coin";
 import Price from "./router/Price";
 import Chart from "./router/Chart";
 
+
 function Router() {
-    return <BrowserRouter>
+    return (<BrowserRouter>
         <Routes>
             <Route path="/:coinId" element={<Coin />} >
                 <Route path="price" element={<Price />} />
@@ -13,7 +14,7 @@ function Router() {
             </Route>
             <Route path="/" element={<Coins />} />
         </Routes>
-    </BrowserRouter>
+    </BrowserRouter>);
 }
 
-export default Router;
+export default Router;      
