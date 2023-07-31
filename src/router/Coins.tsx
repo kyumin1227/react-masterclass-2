@@ -70,6 +70,7 @@ function Coins() {
     const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins)
     // isLoading = data를 불러오는 동안 boolean으로 상태 표시
     // data = fetch를 통해 받아온 데이터를 저장
+    // 한줄로 아래의 코드를 대체
 
     // const [coins, setCoins] = useState<CoinInterface[]>([]);
     // const [loading, setLoading] = useState(true);
