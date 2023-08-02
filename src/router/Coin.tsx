@@ -5,6 +5,7 @@ import Price from "./Price";
 import Chart from "./Chart";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { Helmet } from "react-helmet";
 
 
 
@@ -157,7 +158,9 @@ function Coin() {
   // ReactQuery가 두가지 이상일 경우에는 아래와 같이 isLoading과 data의 이름을 구분
   // 아규먼트를 넣기 위해서는 익명함수를 통해 return
   const {isLoading: infoLoading, data: infoData} = useQuery<IInfoData>(["info", coinId], () => fetchCoinInfo(coinId));
-  const {isLoading: tickersLoading, data: tickersData} = useQuery<IPriceData>(["tickers", coinId], () => fetchCoinTickers(coinId));
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<IPriceData>(["tickers", coinId],
+    () => fetchCoinTickers(coinId),
+    { refetchInterval: 5000, }); // 3번째 argument는 옵션으로 자동으로 리패치 할 간격 설정
 
   const loading = infoLoading || tickersLoading;
 
@@ -183,6 +186,12 @@ function Coin() {
 
   return (
     <Container>
+      <Helmet> {/* 페이지의 제목을 title의 값으로 바꿔주는 라이브러리 
+                (HTML의 head로 직행!!! 즉 title 뿐만 아니라 css등 모두 가능)*/}
+        <title>
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+        </title>
+      </Helmet>
         <Header>
             <Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
         </Header>
