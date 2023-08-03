@@ -6,6 +6,9 @@ import Chart from "./Chart";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { Helmet } from "react-helmet";
+import { useRecoilState } from "recoil";
+import { themeState } from "../atom";
+import { darkTheme, lightTheme } from "../theme";
 
 
 
@@ -75,6 +78,26 @@ const Tab = styled.span<{ isActive: boolean }>`
     display: block;
   }
 `;
+
+const BackButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  /* background-color: tomato; */
+  margin-bottom: 10px;
+`
+
+const BackButton = styled.div`
+  width: 40px;
+  height: 40px;
+  /* margin-left: 3px; */
+  border-radius: 10px;
+  background-color: black;
+  opacity: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 interface RouteState {
     state: {
@@ -160,7 +183,8 @@ function Coin() {
   const {isLoading: infoLoading, data: infoData} = useQuery<IInfoData>(["info", coinId], () => fetchCoinInfo(coinId));
   const { isLoading: tickersLoading, data: tickersData } = useQuery<IPriceData>(["tickers", coinId],
     () => fetchCoinTickers(coinId),
-    { refetchInterval: 5000, }); // 3번째 argument는 옵션으로 자동으로 리패치 할 간격 설정
+    // { refetchInterval: 5000, }, // 3번째 argument는 옵션으로 자동으로 리패치 할 간격 설정
+  );
 
   const loading = infoLoading || tickersLoading;
 
@@ -184,6 +208,16 @@ function Coin() {
   //       })();
   //   }, [coinId])
 
+  const [theme, setTheme] = useRecoilState(themeState);
+
+  const changeTheme = () => {
+    if (theme === lightTheme) {
+      setTheme(darkTheme);
+    } else {
+      setTheme(lightTheme);
+    }
+  }
+
   return (
     <Container>
       <Helmet> {/* 페이지의 제목을 title의 값으로 바꿔주는 라이브러리 
@@ -194,7 +228,15 @@ function Coin() {
       </Helmet>
         <Header>
             <Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
-        </Header>
+      </Header>
+      <BackButtonContainer>
+        <BackButton>
+          <Link to={"/"}>Back</Link>
+        </BackButton>
+        <BackButton onClick={changeTheme}>
+          Theme
+        </BackButton>
+      </BackButtonContainer>
         {loading ? <Loader>loading...</Loader> : (
           <>
             <Overview>
