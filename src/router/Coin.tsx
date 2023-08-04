@@ -274,7 +274,7 @@ function Coin() {
             </Tab>
           </Tabs>
 
-            <Outlet context={{coinId: coinId}} />
+            <Outlet context={{coinId: coinId, data: tickersData}} />
         </>
       )}
       </Container>
