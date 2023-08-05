@@ -99,6 +99,10 @@ const BackButton = styled.div`
   justify-content: center;
 `
 
+const BackButtonText = styled.span`
+  color: ${(props) => props.theme.textColor};
+`
+
 interface RouteState {
     state: {
         name: string;
@@ -231,10 +235,10 @@ function Coin() {
       </Header>
       <BackButtonContainer>
         <BackButton>
-          <Link to={"/"}>Back</Link>
+          <Link to={"/"}><BackButtonText>Back</BackButtonText></Link>
         </BackButton>
         <BackButton onClick={changeTheme}>
-          Theme
+          <BackButtonText>Theme</BackButtonText>
         </BackButton>
       </BackButtonContainer>
         {loading ? <Loader>loading...</Loader> : (
