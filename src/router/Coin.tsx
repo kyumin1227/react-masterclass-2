@@ -100,7 +100,7 @@ const BackButton = styled.div`
 `
 
 const BackButtonText = styled.span`
-  color: ${(props) => props.theme.textColor};
+  /* color: ${(props) => props.theme.textColor}; */
 `
 
 interface RouteState {

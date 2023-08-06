@@ -3,6 +3,8 @@ import { fetchCoinHistory } from "../api";
 import { useOutletContext } from "react-router-dom";
 import ApexChart from "react-apexcharts";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom, themeState } from "../atom";
 
 
 interface IHistorical {
@@ -21,6 +23,8 @@ interface IChartProps {
 }
 
 function Chart() {
+
+    const isDark = useRecoilValue(isDarkAtom);
 
     const example = new Date(0).toISOString()
 
@@ -43,7 +47,7 @@ function Chart() {
     
     return <div>{isLoading ? "Loading..." : <ApexChart options={{
         theme: {
-            mode: "dark",
+            mode: isDark ? "dark" : "light",
         },
         chart: {
             type: "candlestick",

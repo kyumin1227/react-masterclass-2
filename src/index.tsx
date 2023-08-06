@@ -5,18 +5,18 @@ import App from "./App";
 import { darkTheme, lightTheme } from "./theme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot, useRecoilValue } from "recoil";
-import { themeState } from "./atom";
+import { isDarkAtom, themeState } from "./atom";
 
 
 const queryClient = new QueryClient();
 
 const Root = () => {
   
-  const theme = useRecoilValue(themeState);
+  const isDark = useRecoilValue(isDarkAtom);
   
   return (
     <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           <App />
         </ThemeProvider>
       </QueryClientProvider>
