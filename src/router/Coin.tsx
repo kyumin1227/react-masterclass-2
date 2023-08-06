@@ -6,8 +6,8 @@ import Chart from "./Chart";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { Helmet } from "react-helmet";
-import { useRecoilState } from "recoil";
-import { themeState } from "../atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isDarkAtom, themeState } from "../atom";
 import { darkTheme, lightTheme } from "../theme";
 
 
@@ -87,20 +87,16 @@ const BackButtonContainer = styled.div`
   margin-bottom: 10px;
 `
 
-const BackButton = styled.div`
+const BackButton = styled.button`
   width: 40px;
   height: 40px;
   /* margin-left: 3px; */
   border-radius: 10px;
-  background-color: black;
-  opacity: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: ${(props) => props.theme.textColor};
   display: flex;
   align-items: center;
   justify-content: center;
-`
-
-const BackButtonText = styled.span`
-  /* color: ${(props) => props.theme.textColor}; */
 `
 
 interface RouteState {
@@ -212,15 +208,19 @@ function Coin() {
   //       })();
   //   }, [coinId])
 
-  const [theme, setTheme] = useRecoilState(themeState);
+  // const [theme, setTheme] = useRecoilState(themeState);
 
-  const changeTheme = () => {
-    if (theme === lightTheme) {
-      setTheme(darkTheme);
-    } else {
-      setTheme(lightTheme);
-    }
-  }
+  // atom 값을 변경하는 함수를 반환(react의 setState)
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom(prev => !prev);
+
+  // const changeTheme = () => {
+  //   if (theme === lightTheme) {
+  //     setTheme(darkTheme);
+  //   } else {
+  //     setTheme(lightTheme);
+  //   }
+  // }
 
   return (
     <Container>
@@ -235,11 +235,9 @@ function Coin() {
       </Header>
       <BackButtonContainer>
         <BackButton>
-          <Link to={"/"}><BackButtonText>Back</BackButtonText></Link>
+          <Link to={"/"}>Back</Link>
         </BackButton>
-        <BackButton onClick={changeTheme}>
-          <BackButtonText>Theme</BackButtonText>
-        </BackButton>
+        <BackButton onClick={toggleDarkAtom}>Theme</BackButton>
       </BackButtonContainer>
         {loading ? <Loader>loading...</Loader> : (
           <>
